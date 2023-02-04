@@ -19,6 +19,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginController> {
   final formKey = GlobalKey<FormState>();
   final emailEC = TextEditingController();
   final passwordEC = TextEditingController();
+  final showPassword = ValueNotifier<bool>(false);
 
   @override
   void dispose() {
@@ -26,6 +27,8 @@ class _LoginPageState extends BaseState<LoginPage, LoginController> {
     passwordEC.dispose();
     super.dispose();
   }
+
+  void _toggleShowPassword() => showPassword.value = !showPassword.value;
 
   @override
   Widget build(BuildContext context) {
@@ -75,15 +78,26 @@ class _LoginPageState extends BaseState<LoginPage, LoginController> {
                         ]),
                       ),
                       const SizedBox(height: 30),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: 'Senha',
-                        ),
-                        obscureText: true,
-                        controller: passwordEC,
-                        validator: Validatorless.multiple([
-                          Validatorless.required('Senha obrigatória'),
-                        ]),
+                      ValueListenableBuilder(
+                        valueListenable: showPassword,
+                        builder: (_, show, child) {
+                          return TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Senha',
+                              suffixIcon: InkWell(
+                                onTap: _toggleShowPassword,
+                                child: Icon(show
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
+                              ),
+                            ),
+                            obscureText: !showPassword.value,
+                            controller: passwordEC,
+                            validator: Validatorless.multiple([
+                              Validatorless.required('Senha obrigatória'),
+                            ]),
+                          );
+                        },
                       ),
                       const SizedBox(height: 30),
                       Center(

@@ -17,10 +17,10 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends BaseState<RegisterPage, RegisterController> {
   final _formKey = GlobalKey<FormState>();
-
   final _nameEC = TextEditingController();
   final _emailEC = TextEditingController();
   final _passwordEC = TextEditingController();
+  final showPassword = ValueNotifier<bool>(false);
 
   @override
   void dispose() {
@@ -29,6 +29,8 @@ class _RegisterPageState extends BaseState<RegisterPage, RegisterController> {
     _passwordEC.dispose();
     super.dispose();
   }
+
+  void _toggleShowPassword() => showPassword.value = !showPassword.value;
 
   @override
   Widget build(BuildContext context) {
@@ -81,26 +83,49 @@ class _RegisterPageState extends BaseState<RegisterPage, RegisterController> {
                     ]),
                   ),
                   const SizedBox(height: 30),
-                  TextFormField(
-                    decoration: const InputDecoration(labelText: 'Senha'),
-                    obscureText: true,
-                    controller: _passwordEC,
-                    validator: Validatorless.multiple([
-                      Validatorless.required('Senha obrigatória'),
-                      Validatorless.min(
-                          6, 'Senha deve conter pelo menos 6 caracteres'),
-                    ]),
+                  ValueListenableBuilder(
+                    valueListenable: showPassword,
+                    builder: (_, show, child) {
+                      return TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Senha',
+                          suffixIcon: InkWell(
+                            onTap: _toggleShowPassword,
+                            child: Icon(
+                                show ? Icons.visibility_off : Icons.visibility),
+                          ),
+                        ),
+                        obscureText: !showPassword.value,
+                        controller: _passwordEC,
+                        validator: Validatorless.multiple([
+                          Validatorless.required('Senha obrigatória'),
+                          Validatorless.min(
+                              6, 'Senha deve conter pelo menos 6 caracteres'),
+                        ]),
+                      );
+                    },
                   ),
                   const SizedBox(height: 30),
-                  TextFormField(
-                    decoration:
-                        const InputDecoration(labelText: 'Confirma senha'),
-                    obscureText: true,
-                    validator: Validatorless.multiple([
-                      Validatorless.required('Confirma senha obrigatória'),
-                      Validatorless.compare(
-                          _passwordEC, 'Senha diferente de confirma senha'),
-                    ]),
+                  ValueListenableBuilder(
+                    valueListenable: showPassword,
+                    builder: (_, show, child) {
+                      return TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Confirma senha',
+                          suffixIcon: InkWell(
+                            onTap: _toggleShowPassword,
+                            child: Icon(
+                                show ? Icons.visibility_off : Icons.visibility),
+                          ),
+                        ),
+                        obscureText: !showPassword.value,
+                        validator: Validatorless.multiple([
+                          Validatorless.required('Confirma senha obrigatória'),
+                          Validatorless.compare(
+                              _passwordEC, 'Senha diferente de confirma senha'),
+                        ]),
+                      );
+                    },
                   ),
                   const SizedBox(height: 30),
                   Center(
