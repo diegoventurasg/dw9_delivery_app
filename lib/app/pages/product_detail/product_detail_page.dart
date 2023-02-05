@@ -80,6 +80,7 @@ class _ProductDetailPageState
         children: [
           Hero(
             tag: widget.product.id,
+            transitionOnUserGestures: true,
             child: Container(
               width: context.screenWidth,
               height: context.percentHeight(.4),
