@@ -45,7 +45,7 @@ class PaymentTypesField extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: const EdgeInsets.only(top: 12),
                       width: context.screenWidth,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
