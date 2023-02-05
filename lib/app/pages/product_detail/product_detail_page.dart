@@ -78,13 +78,16 @@ class _ProductDetailPageState
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: context.screenWidth,
-            height: context.percentHeight(.4),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(widget.product.image),
-                fit: BoxFit.cover,
+          Hero(
+            tag: widget.product.id,
+            child: Container(
+              width: context.screenWidth,
+              height: context.percentHeight(.4),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(widget.product.image),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
